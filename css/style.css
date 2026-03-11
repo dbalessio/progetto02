@@ -1,0 +1,167 @@
+body {
+  background-color: #f5f7f6;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+header h1 {
+  letter-spacing: 0.02em;
+}
+
+.subscript {
+  font-size: 0.8em;
+  vertical-align: sub;
+}
+
+.superscript {
+  font-size: 0.7em;
+  vertical-align: super;
+}
+
+main.container {
+  max-width: 960px;
+}
+
+header .container {
+  max-width: 960px;
+}
+
+.accordion-item {
+  border-radius: 0.75rem !important;
+  overflow: hidden;
+  border: 1px solid #e0e4e7;
+  background-color: #ffffff;
+}
+
+.accordion-item + .accordion-item {
+  margin-top: 1rem;
+}
+
+.accordion-button {
+  font-weight: 600;
+  background-color: #f8f9fa;
+  color: #343a40;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #1f2933;
+  background-color: #eef1f4;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+}
+
+.accordion-body {
+  background-color: #ffffff;
+}
+
+.alert-warning {
+  border-radius: 0.75rem;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.form-control {
+  border-radius: 0.5rem;
+  border: 1px solid #ced4da;
+  font-size: 0.95rem;
+}
+
+.form-control:focus {
+  border-color: #198754;
+  box-shadow: 0 0 0 0.15rem rgba(25, 135, 84, 0.25);
+}
+
+.form-text {
+  color: #6c757d;
+}
+
+.card {
+  border-radius: 0.75rem;
+  border: 1px solid #e0e4e7;
+}
+
+.card-title {
+  color: #1f2933;
+}
+
+.progress-card {
+  background-color: #ffffff;
+}
+
+.preview-card {
+  background-color: #f8f9fa;
+}
+
+.bg-low {
+  background-color: #dc3545 !important;
+}
+
+.bg-medium {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+
+.bg-high {
+  background-color: #198754 !important;
+}
+
+#calcolaBtn {
+  border-radius: 0.5rem;
+  background-color: #198754;
+  border-color: #198754;
+  box-shadow: none;
+}
+
+#calcolaBtn:hover {
+  background-color: #157347;
+  border-color: #157347;
+}
+
+.scope-bar-row {
+  margin-bottom: 0.75rem;
+}
+
+.scope-bar-track {
+  background-color: #e9ecef;
+  border-radius: 999px;
+  overflow: hidden;
+  height: 0.75rem;
+}
+
+.scope-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.scope-bar-fill.scope1 {
+  background-color: #a4c4b1;
+}
+
+.scope-bar-fill.scope2 {
+  background-color: #9fb9d6;
+}
+
+.scope-bar-fill.scope3-waste {
+  background-color: #c6b0cf;
+}
+
+.scope-bar-fill.scope3-transport {
+  background-color: #b4b8d0;
+}
+
+@media (max-width: 575.98px) {
+  header h1 {
+    font-size: 1.3rem;
+  }
+
+  #calcolaBtn {
+    width: 100%;
+  }
+}
+
