@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let dominio = "generico";
     if (risultati && risultati.total > 0) {
       const total = risultati.total;
+      const pctScope1 = risultati.scope1 / total;
       const pctTransport = risultati.scope3Transport / total;
       const pctEnergy = risultati.scope2 / total;
       const pctWaste = risultati.scope3Waste / total;
@@ -36,6 +37,10 @@ document.addEventListener("DOMContentLoaded", function () {
         dominio = "trasporti";
       } else if (pctEnergy > SOGLIA) {
         dominio = "energia";
+      } else if (pctWaste > SOGLIA) {
+        dominio = "rifiuti";
+      } else if (pctScope1 > SOGLIA) {
+        dominio = "emissioniDirette";
       } else if (pctEnergy >= SOGLIA_COPPIA && pctWaste >= SOGLIA_COPPIA) {
         dominio = "energiaRifiuti";
       }
@@ -46,7 +51,13 @@ document.addEventListener("DOMContentLoaded", function () {
         return "Le emissioni risultano molto superiori alla media di riferimento. La parte più consistente viene dagli spostamenti: è il momento di ripensare come studenti e personale raggiungono la scuola. Ridurre i chilometri in auto, favorire mezzi pubblici, piedi o bici e il car pooling può fare una grande differenza.";
       }
       if (dominio === "energia") {
-        return "Le emissioni risultano molto superiori alla media di riferimento. Il peso maggiore viene da riscaldamento e consumi elettrici: ottimizzare gli orari di accensione, migliorare l’isolamento e ridurre gli sprechi di energia può fare una grande differenza.";
+        return "Le emissioni risultano molto superiori alla media di riferimento. Il peso maggiore viene da riscaldamento e consumi elettrici: ottimizzare gli orari di accensione, migliorare l'isolamento e ridurre gli sprechi di energia può fare una grande differenza.";
+      }
+      if (dominio === "rifiuti") {
+        return "Le emissioni risultano molto superiori alla media di riferimento. La gestione dei rifiuti pesa in modo consistente: aumentare la raccolta differenziata, ridurre gli imballaggi e favorire il riuso può fare una grande differenza.";
+      }
+      if (dominio === "emissioniDirette") {
+        return "Le emissioni risultano molto superiori alla media di riferimento. Il peso maggiore viene da riscaldamento a gas o altri combustibili: ottimizzare gli orari, migliorare l'isolamento e controllare le caldaie può fare una grande differenza.";
       }
       if (dominio === "energiaRifiuti") {
         return "Le emissioni risultano molto superiori alla media di riferimento. Energia e gestione dei rifiuti sono i settori che pesano di più: ottimizzare il riscaldamento, ridurre gli sprechi e aumentare la raccolta differenziata può fare una grande differenza.";
@@ -59,7 +70,13 @@ document.addEventListener("DOMContentLoaded", function () {
         return "La scuola è più o meno in linea con la media italiana. La parte più consistente delle emissioni viene dagli spostamenti: ridurre i chilometri in auto, favorire mezzi pubblici e car pooling può fare la differenza.";
       }
       if (dominio === "energia") {
-        return "La scuola è più o meno in linea con la media italiana. Le emissioni legate all’energia (riscaldamento ed elettricità) pesano molto: ottimizzare i consumi e gli orari di accensione può fare la differenza.";
+        return "La scuola è più o meno in linea con la media italiana. Le emissioni legate all'energia (riscaldamento ed elettricità) pesano molto: ottimizzare i consumi e gli orari di accensione può fare la differenza.";
+      }
+      if (dominio === "rifiuti") {
+        return "La scuola è più o meno in linea con la media italiana. Le emissioni legate ai rifiuti pesano molto: aumentare la differenziata e ridurre l'indifferenziato può fare la differenza.";
+      }
+      if (dominio === "emissioniDirette") {
+        return "La scuola è più o meno in linea con la media italiana. Le emissioni da riscaldamento (gas, combustibili) pesano molto: ottimizzare orari e temperature può fare la differenza.";
       }
       if (dominio === "energiaRifiuti") {
         return "La scuola è più o meno in linea con la media italiana. Energia e gestione dei rifiuti sono i settori su cui agire: ottimizzare il riscaldamento, ridurre gli sprechi e aumentare la raccolta differenziata può fare la differenza.";
@@ -68,15 +85,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (dominio === "trasporti") {
-      return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. Continuate a privilegiare spostamenti sostenibili e a incoraggiare mezzi pubblici e car pooling: l’esempio della scuola può ispirare le famiglie.";
+      return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. Continuate a privilegiare spostamenti sostenibili e a incoraggiare mezzi pubblici e car pooling: l'esempio della scuola può ispirare le famiglie.";
     }
     if (dominio === "energia") {
       return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. Le buone pratiche su riscaldamento ed energia stanno funzionando: continuate a condividerle con studenti e famiglie.";
     }
+    if (dominio === "rifiuti") {
+      return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. La gestione dei rifiuti e la differenziata stanno funzionando: continuate a condividerle con studenti e famiglie.";
+    }
+    if (dominio === "emissioniDirette") {
+      return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. Le buone pratiche su riscaldamento e combustibili stanno funzionando: continuate a condividerle con studenti e famiglie.";
+    }
     if (dominio === "energiaRifiuti") {
       return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. Le buone pratiche su energia e rifiuti stanno funzionando: continuate a condividerle con studenti e famiglie.";
     }
-    return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. Continuare e condividere le buone pratiche è fondamentale: l’esempio di questa scuola può ispirare famiglie, persone e altre realtà educative.";
+    return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. Continuare e condividere le buone pratiche è fondamentale: l'esempio di questa scuola può ispirare famiglie, persone e altre realtà educative.";
   }
 
   function aggiornaDistanzeTotali() {
@@ -289,6 +312,21 @@ document.addEventListener("DOMContentLoaded", function () {
       barEl.style.width = percent + "%";
     }
 
+    function aggiornaFaccina(score, elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      if (score < 4) {
+        el.textContent = "😟";
+        el.style.filter = "drop-shadow(0 0 6px #dc3545)";
+      } else if (score < 7) {
+        el.textContent = "😐";
+        el.style.filter = "drop-shadow(0 0 6px #ffc107)";
+      } else {
+        el.textContent = "😊";
+        el.style.filter = "drop-shadow(0 0 6px #198754)";
+      }
+    }
+
     function mostraBannerNessunDato() {
       if (noDataAlert) {
         noDataAlert.classList.remove("d-none");
@@ -392,6 +430,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     aggiornaProgressBar(punteggioProgressCompleto, scoreCompleto);
     aggiornaProgressBar(punteggioProgressSenzaTrasporti, scoreSenzaTrasporti);
+
+    aggiornaFaccina(scoreCompleto, "facciaFeedback");
+    aggiornaFaccina(scoreSenzaTrasporti, "facciaFeedbackSenzaTrasporti");
 
     if (messaggioTestuale) {
       messaggioTestuale.textContent = messaggioDaPunteggio(scoreCompleto, risultati);

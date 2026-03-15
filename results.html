@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Eco-School Tracker – Risultati</title>
-  <link rel="icon" type="image/png" href="Layout/favicon.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="Layout/favicon.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="layout/favicon.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="layout/favicon.png" sizes="16x16" />
 
   <!-- Bootstrap CSS -->
   <link
@@ -202,80 +202,6 @@
 
   <script src="js/calculator.js"></script>
   <script src="js/app.js"></script>
-  <script>
-    function mostraFaccina(score, elementId) {
-      const id = elementId || "facciaFeedback";
-      const el = document.getElementById(id);
-      if (!el) return;
-      if (score < 4) {
-        el.textContent = "😟";
-        el.style.filter = "drop-shadow(0 0 6px #dc3545)";
-      } else if (score < 7) {
-        el.textContent = "😐";
-        el.style.filter = "drop-shadow(0 0 6px #ffc107)";
-      } else {
-        el.textContent = "😊";
-        el.style.filter = "drop-shadow(0 0 6px #198754)";
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-      let stored = null;
-      try {
-        stored = sessionStorage.getItem("ecoFormData");
-      } catch (e) {
-        stored = null;
-      }
-      if (!stored || !window.EcoCalculator) return;
-
-      let data;
-      try {
-        data = JSON.parse(stored);
-      } catch (e) {
-        return;
-      }
-
-      const inputs = {
-        gasMetanoMc: data.gasMetanoMc || 0,
-        altriCombustibiliKg: data.altriCombustibiliKg || 0,
-        energiaNonRinnovabiliKwh: data.energiaNonRinnovabiliKwh || 0,
-        energiaRinnovabiliKwh: data.energiaRinnovabiliKwh || 0,
-        energiaAutoprodottaKwh: data.energiaAutoprodottaKwh || 0,
-        energiaAutoconsumataKwh: data.energiaAutoconsumataKwh || 0,
-        rifiutiPlasticaKg: data.rifiutiPlasticaKg || 0,
-        rifiutiCartaKg: data.rifiutiCartaKg || 0,
-        rifiutiVetroKg: data.rifiutiVetroKg || 0,
-        rifiutiMetalliKg: data.rifiutiMetalliKg || 0,
-        rifiutiLegnoKg: data.rifiutiLegnoKg || 0,
-        rifiutiIndifferenziatiKg: data.rifiutiIndifferenziatiKg || 0,
-        kmAutobusAnnui: data.kmAutobusTotali || 0,
-        kmMacchinaAnnui: data.kmMacchinaTotali || 0,
-        kmPiediAnnui: data.kmPiediTotali || 0,
-        kmElettricaAnnui: data.kmElettricaTotali || 0,
-      };
-
-      const risultati = window.EcoCalculator.calculateTotalEmissions(inputs);
-      const numeroPersone = data.numeroPersoneTotali || 0;
-      const totaleReale = risultati.total;
-      const perCapitaCompleto =
-        numeroPersone > 0 ? totaleReale / numeroPersone : totaleReale;
-      const totaleSenzaTrasporti =
-        risultati.scope1 + risultati.scope2 + risultati.scope3Waste;
-      const perCapitaSenzaTrasporti =
-        numeroPersone > 0
-          ? totaleSenzaTrasporti / numeroPersone
-          : totaleSenzaTrasporti;
-
-      const score = window.EcoCalculator.calculateScoreFromPerCapita(
-        perCapitaCompleto
-      );
-      const scoreSenzaTrasporti =
-        window.EcoCalculator.calculateScoreFromPerCapita(perCapitaSenzaTrasporti);
-
-      mostraFaccina(score, "facciaFeedback");
-      mostraFaccina(scoreSenzaTrasporti, "facciaFeedbackSenzaTrasporti");
-    });
-  </script>
 </body>
 </html>
 
