@@ -21,12 +21,60 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function messaggioDaPunteggio(score) {
+  function messaggioDaPunteggio(score, risultati) {
+    const SOGLIA = 0.35;
+    const SOGLIA_COPPIA = 0.25;
+
+    let dominio = "generico";
+    if (risultati && risultati.total > 0) {
+      const total = risultati.total;
+      const pctTransport = risultati.scope3Transport / total;
+      const pctEnergy = risultati.scope2 / total;
+      const pctWaste = risultati.scope3Waste / total;
+
+      if (pctTransport > SOGLIA) {
+        dominio = "trasporti";
+      } else if (pctEnergy > SOGLIA) {
+        dominio = "energia";
+      } else if (pctEnergy >= SOGLIA_COPPIA && pctWaste >= SOGLIA_COPPIA) {
+        dominio = "energiaRifiuti";
+      }
+    }
+
     if (score < 4) {
+      if (dominio === "trasporti") {
+        return "Le emissioni risultano molto superiori alla media di riferimento. La parte più consistente viene dagli spostamenti: è il momento di ripensare come studenti e personale raggiungono la scuola. Ridurre i chilometri in auto, favorire mezzi pubblici, piedi o bici e il car pooling può fare una grande differenza.";
+      }
+      if (dominio === "energia") {
+        return "Le emissioni risultano molto superiori alla media di riferimento. Il peso maggiore viene da riscaldamento e consumi elettrici: ottimizzare gli orari di accensione, migliorare l’isolamento e ridurre gli sprechi di energia può fare una grande differenza.";
+      }
+      if (dominio === "energiaRifiuti") {
+        return "Le emissioni risultano molto superiori alla media di riferimento. Energia e gestione dei rifiuti sono i settori che pesano di più: ottimizzare il riscaldamento, ridurre gli sprechi e aumentare la raccolta differenziata può fare una grande differenza.";
+      }
       return "Le emissioni risultano molto superiori alla media di riferimento. È il momento giusto per ripensare abitudini di trasporto, riscaldamento e gestione dei rifiuti: anche piccoli cambiamenti quotidiani possono fare una grande differenza.";
     }
+
     if (score < 7) {
+      if (dominio === "trasporti") {
+        return "La scuola è più o meno in linea con la media italiana. La parte più consistente delle emissioni viene dagli spostamenti: ridurre i chilometri in auto, favorire mezzi pubblici e car pooling può fare la differenza.";
+      }
+      if (dominio === "energia") {
+        return "La scuola è più o meno in linea con la media italiana. Le emissioni legate all’energia (riscaldamento ed elettricità) pesano molto: ottimizzare i consumi e gli orari di accensione può fare la differenza.";
+      }
+      if (dominio === "energiaRifiuti") {
+        return "La scuola è più o meno in linea con la media italiana. Energia e gestione dei rifiuti sono i settori su cui agire: ottimizzare il riscaldamento, ridurre gli sprechi e aumentare la raccolta differenziata può fare la differenza.";
+      }
       return "La scuola è più o meno in linea con la media italiana. Ci sono già alcune buone abitudini, ma restano ampi margini di miglioramento: ridurre i chilometri in auto, ottimizzare il riscaldamento e aumentare la raccolta differenziata può fare la differenza.";
+    }
+
+    if (dominio === "trasporti") {
+      return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. Continuate a privilegiare spostamenti sostenibili e a incoraggiare mezzi pubblici e car pooling: l’esempio della scuola può ispirare le famiglie.";
+    }
+    if (dominio === "energia") {
+      return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. Le buone pratiche su riscaldamento ed energia stanno funzionando: continuate a condividerle con studenti e famiglie.";
+    }
+    if (dominio === "energiaRifiuti") {
+      return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. Le buone pratiche su energia e rifiuti stanno funzionando: continuate a condividerle con studenti e famiglie.";
     }
     return "Ottimo! Le emissioni risultano inferiori alla media di riferimento. Continuare e condividere le buone pratiche è fondamentale: l’esempio di questa scuola può ispirare famiglie, persone e altre realtà educative.";
   }
@@ -346,7 +394,7 @@ document.addEventListener("DOMContentLoaded", function () {
     aggiornaProgressBar(punteggioProgressSenzaTrasporti, scoreSenzaTrasporti);
 
     if (messaggioTestuale) {
-      messaggioTestuale.textContent = messaggioDaPunteggio(scoreCompleto);
+      messaggioTestuale.textContent = messaggioDaPunteggio(scoreCompleto, risultati);
     }
 
     // Ripartizione per scope (percentuali sul totale reale)

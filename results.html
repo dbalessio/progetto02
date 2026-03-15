@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Eco-School Tracker – Risultati</title>
+  <link rel="icon" type="image/png" href="Layout/favicon.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="Layout/favicon.png" sizes="16x16" />
 
   <!-- Bootstrap CSS -->
   <link
@@ -57,8 +59,15 @@
                 <strong><span id="emissioniProCapite">-</span> kg CO<span class="subscript">2</span>e/anno per persona</strong>
               </p>
 
-              <div class="text-center my-3">
-                <span id="facciaFeedback" style="font-size: 4rem;"></span>
+              <div class="d-flex flex-wrap justify-content-center align-items-center gap-4 my-3">
+                <div class="text-center">
+                  <div class="small text-muted mb-1">Punteggio complessivo (con trasporti)</div>
+                  <span id="facciaFeedback" style="font-size: 4rem;"></span>
+                </div>
+                <div class="text-center">
+                  <div class="small text-muted mb-1">Punteggio edificio &amp; rifiuti (senza trasporti)</div>
+                  <span id="facciaFeedbackSenzaTrasporti" style="font-size: 4rem;"></span>
+                </div>
               </div>
 
               <div class="mb-3">
@@ -194,8 +203,9 @@
   <script src="js/calculator.js"></script>
   <script src="js/app.js"></script>
   <script>
-    function mostraFaccina(score) {
-      const el = document.getElementById("facciaFeedback");
+    function mostraFaccina(score, elementId) {
+      const id = elementId || "facciaFeedback";
+      const el = document.getElementById(id);
       if (!el) return;
       if (score < 4) {
         el.textContent = "😟";
@@ -249,12 +259,21 @@
       const totaleReale = risultati.total;
       const perCapitaCompleto =
         numeroPersone > 0 ? totaleReale / numeroPersone : totaleReale;
+      const totaleSenzaTrasporti =
+        risultati.scope1 + risultati.scope2 + risultati.scope3Waste;
+      const perCapitaSenzaTrasporti =
+        numeroPersone > 0
+          ? totaleSenzaTrasporti / numeroPersone
+          : totaleSenzaTrasporti;
 
-      // Per la faccina usiamo il punteggio complessivo basato sulle emissioni pro-capite
       const score = window.EcoCalculator.calculateScoreFromPerCapita(
         perCapitaCompleto
       );
-      mostraFaccina(score);
+      const scoreSenzaTrasporti =
+        window.EcoCalculator.calculateScoreFromPerCapita(perCapitaSenzaTrasporti);
+
+      mostraFaccina(score, "facciaFeedback");
+      mostraFaccina(scoreSenzaTrasporti, "facciaFeedbackSenzaTrasporti");
     });
   </script>
 </body>

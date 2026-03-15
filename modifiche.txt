@@ -1,24 +1,3 @@
-Stavamo analizzando come risolvere alcuni problemi legati al progetto; questo è ciò che era emerso:
-
-
-
-Perfetto, tengo i fattori di conversione esattamente come sono ora.
-
-Cosa correggeremo (senza toccare i fattori)
-Coerenza benchmark / totale / punteggio
-
-Il problema principale è il confronto tra un totale enorme (es. 218.244 kg/anno per tutta la scuola) e un benchmark di 6.000 kg/anno: lavoreremo su come viene costruito il valore usato per il punteggio, evitando di mischiare totali annui e medie per persona.
-L’idea è usare una metrica unica e chiara (ad esempio totale annuo o pro-capite coerente) sia per il benchmark sia per il punteggio, così un valore tipo 218.244 kg non porterà automaticamente a 1/10 se non è davvero “fuori scala” rispetto al criterio scelto.
-Ripartizione per Scope
-
-In results.html cambieremo solo il testo "Scope 4 – Trasporti" in "Scope 3 – Trasporti", come hai chiesto.
-In app.js allineeremo la ripartizione per scope usando sempre valori totali annui per le barre (invece della media pro-capite solo per i trasporti), così:
-il testo "kg CO₂e/anno" sarà corretto,
-la frase "peso relativo sul totale" sarà davvero riferita al totale risultati.total.
-Controllo di incongruenze di calcolo
-
-Verificherò con attenzione:
-che tutti i contributi di scope 1, 2, 3 rifiuti e trasporti siano sempre sommati con i loro coefficienti, senza dimenticare moltiplicazioni o divisioni,
-che i km usati per i trasporti siano sempre quelli annui (km/giorno × giorni × persone) quando si calcolano le emissioni,
-che il valore mostrato come "media CO₂ per persona" derivi da una divisione coerente per il numero di persone, senza essere mischiato con altri totali.
-Se per te va bene questa direzione (lasciando invariati i fattori di conversione), alla prossima fase applicherò queste modifiche direttamente ai file.
+Accanto alla faccina relativa al punteggio complessivo (con trasporti), inserisci un'altra faccina relativa invece al punteggio edificio & rifiuti (senza trasporti).
+Nell'interpretazione del punteggio, modifica il testo (per esempio questo: "La scuola è più o meno in linea con la media italiana. Ci sono già alcune buone abitudini, ma restano ampi margini di miglioramento: ridurre i chilometri in auto, ottimizzare il riscaldamento e aumentare la raccolta differenziata può fare la differenza."), adattandolo in base ai risultati ottenuti: se nella ripartizione per scope i trasporti hanno un peso molto più elevato scrivi un messaggio relativo a quello, se accade per l'energia lo stesso, se accade per energia e rifiuti il messaggio deve essere relativo a entrambi i settori.
+Apllica la favicon, che sarebbe il file favicon.png nella cartella layout, e applicala al sito, ridimensionandola in modo corretto per evitare perdite di qualità.
